@@ -1,34 +1,34 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
-class Home extends StatefulWidget {
-  const Home({super.key});
+import '../model/city_weather.dart';
 
+class WeatherScreen extends StatefulWidget {
+  const WeatherScreen({super.key, required this.city, required this.background, required this.color});
+  final CityWeather city;
+  final String background;
+  final Color color;
   @override
-  State<Home> createState() => _HomeState();
+  State<WeatherScreen> createState() => _WeatherScreenState();
 }
 
-class _HomeState extends State<Home> {
+class _WeatherScreenState extends State<WeatherScreen> {
+  TextEditingController cityName = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: const BoxDecoration(
-          image: DecorationImage(image: AssetImage('assets/images/background.jpg'), fit: BoxFit.cover),
+        decoration: BoxDecoration(
+          image: DecorationImage(image: AssetImage(widget.background), fit: BoxFit.cover),
         ),
         child: ListView(padding: const EdgeInsets.all(16), children: [
-          ListTile(
-            leading: IconButton(onPressed: () {print('stop it ');}, icon: const Icon(Icons.search)),
-            title: TextField(
-              decoration: InputDecoration(
-                border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-              ),
-            ),
-          ),
+          const ListTile(),
           const SizedBox(height: 16),
           Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: const Color(0xff98B2D5).withOpacity(0.4),
+              color: widget.color,
               borderRadius: const BorderRadius.all(
                 Radius.circular(8),
               ),
@@ -36,23 +36,23 @@ class _HomeState extends State<Home> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Column(
+                Column(
                   children: [
                     Text(
-                      '23°',
-                      style: TextStyle(fontSize: 35),
+                      '${widget.city.temp}°',
+                      style: const TextStyle(fontSize: 35),
                     ),
                     Text(
-                      'Monday',
-                      style: TextStyle(fontSize: 12),
+                      DateFormat('EEEE').format(DateTime.now()),
+                      style: const TextStyle(fontSize: 12),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 16,
                     ),
                     Center(
                         child: Text(
-                      'City, Country',
-                      style: TextStyle(fontSize: 20),
+                      '${widget.city.name}, ${widget.city.country}',
+                      style: const TextStyle(fontSize: 20),
                     )),
                   ],
                 ),
@@ -73,29 +73,29 @@ class _HomeState extends State<Home> {
           Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: const Color(0xff98B2D5).withOpacity(0.4),
+              color: widget.color,
               borderRadius: const BorderRadius.all(
                 Radius.circular(8),
               ),
             ),
-            child: const Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
+            child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
               Column(
                 children: [
-                  Column(
+                  const Column(
                     children: [
                       Icon(Icons.cloudy_snowing),
                       Text('34%'),
                       Text('Precipitation'),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   Column(
                     children: [
-                      Icon(Icons.cloudy_snowing),
-                      Text('34%'),
-                      Text('Precipitation'),
+                      const Icon(Icons.air),
+                      Text('${widget.city.wind} km/h'),
+                      const Text('Wind'),
                     ],
                   ),
                 ],
@@ -104,19 +104,19 @@ class _HomeState extends State<Home> {
                 children: [
                   Column(
                     children: [
-                      Icon(Icons.cloudy_snowing),
-                      Text('34%'),
-                      Text('Precipitation'),
+                      const Icon(Icons.water_drop),
+                      Text('${widget.city.humidity}'),
+                      const Text('Humidity'),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   Column(
                     children: [
-                      Icon(Icons.cloudy_snowing),
-                      Text('34%'),
-                      Text('Precipitation'),
+                      const Icon(Icons.menu),
+                      Text('${widget.city.pressure} hPa'),
+                      const Text('pressure'),
                     ],
                   ),
                 ],
@@ -138,7 +138,7 @@ class _HomeState extends State<Home> {
             child: Container(
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: const Color(0xff98B2D5).withOpacity(0.65),
+                color: widget.color,
                 borderRadius: const BorderRadius.all(
                   Radius.circular(8),
                 ),
