@@ -29,6 +29,7 @@ class _PickCityState extends State<PickCity> {
   ];
   Color color = const Color(0xff98B2D5).withOpacity(0.4);
   CityWeather city = CityWeather();
+  String background = 'assets/images/background2.jpg';
   TextEditingController cityName = TextEditingController();
   Future<CityWeather> getWeather(String cityName) async {
     final url = Uri.https(
@@ -54,14 +55,13 @@ class _PickCityState extends State<PickCity> {
     final location = jsonResponse['location'];
     city.name = location['name'];
     city.country = location['country'];
-    city.pressure = jsonResponse['pressure_mb'];
-    city.wind = jsonResponse['wind_mph'];
+
     final currentObject = jsonResponse['current'];
+    city.pressure = currentObject['pressure_mb'];
+    city.wind = currentObject['wind_mph'];
     city.temp = currentObject['temp_c'];
     city.humidity = currentObject['humidity'];
-    final isDay = currentObject['is_day'];
-
-    isDay == 1 ? color = const Color(0xff98B2D5).withOpacity(0.4) : color = const Color(0xff595baf).withOpacity(0.4);
+    currentObject['is_day'] == 1 ? city.isDay = true : city.isDay = false;
 
     return CityWeather();
   }
@@ -76,8 +76,8 @@ class _PickCityState extends State<PickCity> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: const BoxDecoration(
-            image: DecorationImage(image: AssetImage('assets/images/background2.jpg'), fit: BoxFit.cover)),
+        decoration:
+            const BoxDecoration(image: DecorationImage(image: AssetImage('images/background2.jpg'), fit: BoxFit.cover)),
         child: ListView(
           padding: const EdgeInsets.all(20),
           children: [
@@ -85,10 +85,7 @@ class _PickCityState extends State<PickCity> {
               leading: IconButton(
                   onPressed: () async {
                     await getWeather(cityName.text.trim());
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => WeatherScreen(background: '', city: city, color: color)));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => WeatherScreen(city: city)));
                   },
                   icon: const Icon(Icons.search)),
               title: TextField(
@@ -104,10 +101,7 @@ class _PickCityState extends State<PickCity> {
                   contentPadding: const EdgeInsets.all(12),
                   onTap: () async {
                     await getWeather(town);
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => WeatherScreen(background: '', city: city, color: color)));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => WeatherScreen(city: city)));
                   },
                   leading: const Icon(Icons.location_city_outlined),
                   title: Text(town),

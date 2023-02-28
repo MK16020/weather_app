@@ -1,5 +1,8 @@
 class CityWeather {
-  String? humidity, temp, error, wind, pressure, name, country;
+  String? error, name, country;
+  int? humidity, temp;
+  double? pressure, wind;
+  bool? isDay;
 
-  CityWeather({this.humidity, this.temp, this.pressure, this.wind, this.error, this.country, this.name});
+  CityWeather({this.humidity, this.temp, this.pressure, this.wind, this.error, this.country, this.name, this.isDay});
 }
