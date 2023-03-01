@@ -189,7 +189,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                 children: [
                   Text(DateFormat('EEEE').format(DateTime.now().add(Duration(days: i))),
                       style: TextStyle(color: color)),
-                  Icon(color: color, Icons.cloud),
+                  
                   Text(style: TextStyle(color: color), '32°\t19°')
                 ],
               ),
